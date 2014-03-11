@@ -1,0 +1,16 @@
+// first_ps.txt
+
+struct PixelInput 
+{
+	float4 position : SV_POSITION;
+	float2 texcoord : TEXCOORD;
+};
+
+Texture2D diffuseTexture;
+SamplerState defaultSampler;
+
+float4 main(PixelInput input) : SV_TARGET
+{
+	float4 finalColor = diffuseTexture.Sample(defaultSampler, input.texcoord);
+	return finalColor;
+}

@@ -1,0 +1,52 @@
+// lighting_ps.txt
+
+struct PixelInput 
+{
+	float4 position : SV_POSITION;
+	float4 world : POSITION;
+	float2 texcoord : TEXCOORD;
+	float3 normal : NORMAL;
+};
+
+struct Material 
+{
+	float Ka; // ambient
+	float Kd; // diffuse
+	float Ks; // specular
+	float A;  // shininess
+};
+
+cbuffer Lighting 
+{
+	float4 direction;
+	float4 diffuse;
+	float4 ambient;
+	float4 eye;	
+};
+
+cbuffer Material 
+{
+	Material material;	
+};
+
+Texture2D diffuseTexture;
+SamplerState defaultSampler;
+
+float4 calculate_phong_lighting(Material m, float3 color, float3 N, float3 L, float3 V, float3 R) 
+{
+	float4 Ia = m.Ka * ambient;
+	float4 Id = m.Kd * saturate(dot(N,L));
+	float4 Is = m.Ks * pow( saturate( dot(R,V)), m.A);
+	return Ia + (Id + Is) * float4(color, 1.0);
+}
+
+float4 main(PixelInput input) : SV_TARGET
+{
+	float3 N = normalize( input.normal );
+	float3 V = normalize( eye - (float3)input.world);
+	float3 R = reflect( direction, input.normal );
+
+	float4 I = calculate_phong_lighting(material, diffuse, N, -direction, V, R);
+	float4 finalColor = diffuseTexture.Sample(defaultSampler, input.texcoord);
+	return finalColor;
+}

@@ -1,0 +1,46 @@
+// lighting_vs.txt
+
+struct VertexInput 
+{
+	float4 position : POSITION;
+	float2 texcoord : TEXCOORD0;
+	float3 normal : NORMAL;
+};
+
+struct PixelInput 
+{
+	float4 position : SV_POSITION;
+	float4 world : POSITION;
+	float2 texcoord : TEXCOORD0;
+	float3 normal : NORMAL;
+};
+
+cbuffer OncePerFrame 
+{
+	matrix projection;
+	matrix view;
+};
+
+cbuffer OncePerObject
+{
+	matrix world;
+};
+
+PixelInput main(VertexInput input) {
+	float4 position = input.position;
+	position = mul(world, position);
+	position = mul(view, position);
+	position = mul(projection, position);
+
+	float4 wposition = mul(world, input.position);
+
+	float3 normal = normalize( mul((float3x3)world, input.normal) );
+
+	PixelInput output;
+	output.position = position;
+	output.world = wposition;
+	output.texcoord = input.texcoord;
+	output.normal = normal;
+	
+	return output;
+}

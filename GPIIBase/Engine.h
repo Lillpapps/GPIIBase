@@ -9,6 +9,7 @@ class CameraKeyboard;
 class CameraMouse;
 class Plane;
 class Box;
+class AudioSystem;
 
 class Engine {
 public:
@@ -33,4 +34,5 @@ private:
 	CameraMouse* m_camera_mouse;
 	Plane* m_plane;
 	Box* m_box;
+	AudioSystem* m_audio_system;
 };

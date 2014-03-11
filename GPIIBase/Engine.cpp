@@ -9,6 +9,7 @@
 #include "CameraMouse.h"
 #include "Plane.h"
 #include "Box.h"
+#include "AudioSystem.h"
 
 Engine::Engine() {
 	m_input_system = nullptr;
@@ -16,6 +17,7 @@ Engine::Engine() {
 	m_camera = nullptr;
 	m_camera_keyboard = nullptr;
 	m_camera_mouse = nullptr;
+	m_audio_system = nullptr;
 };
 
 Engine::~Engine() {
@@ -33,6 +35,9 @@ bool Engine::Initialize(Config& config, void* window) {
 		Debug::Msg(e.what());
 		return false;
 	};
+
+
+	m_audio_system = new AudioSystem();
 
 	m_input_system = new InputSystem;
 	m_camera = new Camera(45.0f * 3.141592f / 180.0f, (float)width / (float)height, 0.5f, 1000.0f);
@@ -52,7 +57,9 @@ bool Engine::Initialize(Config& config, void* window) {
 	}
 
 	
-
+	m_audio_system->Initialize(m_camera);
+	m_audio_system->PlayMusic(m_audio_system->Attack1, 1.0f);
+	
 	
 	return true;
 };
@@ -91,6 +98,7 @@ void Engine::Cleanup() {
 bool Engine::Update(float deltatime) {
 	
 	m_camera->Update();
+	m_audio_system->Update(m_camera);
 
 	m_render_system->Clear();
 
@@ -105,6 +113,8 @@ bool Engine::Update(float deltatime) {
 	m_render_system->DrawIndexed(PRIMITIVE_TRIANGLES, 0, 36);
 
 	m_render_system->Present();
+	
+	
 	return true;
 };
 

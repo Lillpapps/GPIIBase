@@ -59,12 +59,12 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
-      <AdditionalIncludeDirectories>../deps/libstb/include/</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../deps/irrklang/include/;../deps/libstb/include/</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>../deps/libstb/lib/x86/debug/</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>../deps/irrklang/lib/Win32-visualStudio/;../deps/libstb/lib/x86/debug/</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -87,6 +87,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="AudioSystem.h" />
     <ClInclude Include="Box.h" />
     <ClInclude Include="CameraKeyboard.h" />
     <ClInclude Include="CameraMouse.h" />
@@ -103,6 +104,7 @@
     <ClInclude Include="Utils.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AudioSystem.cpp" />
     <ClCompile Include="Box.cpp" />
     <ClCompile Include="CameraKeyboard.cpp" />
     <ClCompile Include="CameraMouse.cpp" />

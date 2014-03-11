@@ -19,6 +19,10 @@
 #include <vector>
 #include <map>
 
+// irrklang Audio
+#include <irrKlang.h>
+#pragma comment(lib, "irrKlang.lib")
+
 // DirectX
 #define _XM_NO_INTRINSICS_
 #include <dxgi.h>
